@@ -725,6 +725,10 @@ func (n *Nexus3) uploadArtifactsSingleDir(localDiskRepo string) {
 		return
 	}
 
+	if localDiskRepo == ".DS_Store" {
+		return
+	}
+
 	repoFormatAndType, err := n.repoFormatLocalDiskRepo(localDiskRepo)
 	if err != nil {
 		panic(err)
