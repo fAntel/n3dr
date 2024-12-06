@@ -29,7 +29,7 @@ import (
 )
 
 type artifactFiles struct {
-	f2, f3, f4, f5, f6, f7, f8, f9, f10, f11 *os.File
+	f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12 *os.File
 }
 
 type mavenParts struct {
@@ -363,6 +363,25 @@ func (af artifactFiles) mavenJarAndOtherExtensions(c *components.UploadComponent
 		}).Trace("Maven2 asset11")
 	}
 
+	filePathChangelog := fileNameWithoutExtIncludingDir + "-CHANGELOG.md"
+	if _, err := os.Stat(filePathChangelog); err == nil {
+		af.f12, err = os.Open(filepath.Clean(filePathChangelog))
+		if err != nil {
+			return err
+		}
+		c.Maven2Asset12 = af.f12
+		ext12 := "md"
+		c.Maven2Asset12Extension = &ext12
+		classifier12 := "CHANGELOG"
+		c.Maven2Asset12Classifier = &classifier12
+
+		log.WithFields(log.Fields{
+			"file":      c.Maven2Asset12.Name(),
+			"extension": *c.Maven2Asset12Extension,
+			"classifier": *c.Maven2Asset12Classifier,
+		}).Trace("Maven2 asset12")
+	}
+
 	return nil
 }
 
@@ -489,6 +508,7 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 			maven2Asset9 := "empty"
 			maven2Asset10 := "empty"
 			maven2Asset11 := "empty"
+			maven2Asset12 := "empty"
 
 			if c.Maven2Asset1 != nil {
 				maven2Asset1 = c.Maven2Asset1.Name()
@@ -523,6 +543,9 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 			if c.Maven2Asset11 != nil {
 				maven2Asset11 = c.Maven2Asset11.Name()
 			}
+			if c.Maven2Asset12 != nil {
+				maven2Asset12 = c.Maven2Asset12.Name()
+			}
 
 			log.WithFields(log.Fields{
 				"1":  maven2Asset1,
@@ -536,6 +559,7 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 				"9":  maven2Asset9,
 				"10": maven2Asset10,
 				"11": maven2Asset11,
+				"12": maven2Asset12,
 			}).Debug("Maven2 asset upload")
 		} else {
 			log.Debugf("folder: '%s' does not contain a pom file: '%s'", dirPath, filePathPom)
@@ -576,7 +600,7 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 			generatePOM := true
 			c.Maven2GeneratePom = &generatePOM
 
-			maven2Asset1, maven2Asset2, maven2Asset3, maven2Asset4, maven2Asset5, maven2Asset6, maven2Asset7, maven2Asset8, maven2Asset9, maven2Asset10, maven2Asset11 := "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"
+			maven2Asset1, maven2Asset2, maven2Asset3, maven2Asset4, maven2Asset5, maven2Asset6, maven2Asset7, maven2Asset8, maven2Asset9, maven2Asset10, maven2Asset11, maven2Asset12 := "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"
 
 			if c.Maven2Asset1 != nil {
 				maven2Asset1 = c.Maven2Asset1.Name()
@@ -611,6 +635,9 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 			if c.Maven2Asset11 != nil {
 				maven2Asset11 = c.Maven2Asset11.Name()
 			}
+			if c.Maven2Asset12 != nil {
+				maven2Asset12 = c.Maven2Asset12.Name()
+			}
 
 			log.WithFields(log.Fields{
 				"1":  maven2Asset1,
@@ -624,6 +651,7 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 				"9":  maven2Asset9,
 				"10": maven2Asset10,
 				"11": maven2Asset11,
+				"12": maven2Asset12,
 			}).Debug("Maven2 asset upload")
 		}
 
@@ -676,7 +704,7 @@ func (n *Nexus3) UploadSingleArtifact(client *client.Nexus3, path, localDiskRepo
 		return false, nil
 	}
 
-	files := []*os.File{f, af.f2, af.f3, af.f4, af.f5, af.f6, af.f2, af.f7, af.f8, af.f9, af.f10, af.f11}
+	files := []*os.File{f, af.f2, af.f3, af.f4, af.f5, af.f6, af.f2, af.f7, af.f8, af.f9, af.f10, af.f11, af.f12}
 	if err := upload(c, client, path, files); err != nil {
 		return false, err
 	}

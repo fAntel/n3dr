@@ -140,6 +140,24 @@ type UploadComponentParams struct {
 	*/
 	Maven2Asset11Extension *string
 
+	/* Maven2Asset12.
+
+	   maven2 Asset 12
+	*/
+	Maven2Asset12 runtime.NamedReadCloser
+
+	/* Maven2Asset12Classifier.
+
+	   maven2 Asset 12 Classifier
+	*/
+	Maven2Asset12Classifier *string
+
+	/* Maven2Asset12Extension.
+
+	   maven2 Asset 12 Extension
+	*/
+	Maven2Asset12Extension *string
+
 	/* Maven2Asset2.
 
 	   maven2 Asset 2
@@ -604,6 +622,39 @@ func (o *UploadComponentParams) WithMaven2Asset11Extension(maven2Asset11Extensio
 // SetMaven2Asset11Extension adds the maven2Asset11Extension to the upload component params
 func (o *UploadComponentParams) SetMaven2Asset11Extension(maven2Asset11Extension *string) {
 	o.Maven2Asset11Extension = maven2Asset11Extension
+}
+
+// WithMaven2Asset12 adds the maven2Asset12 to the upload component params
+func (o *UploadComponentParams) WithMaven2Asset12(maven2Asset12 runtime.NamedReadCloser) *UploadComponentParams {
+	o.SetMaven2Asset12(maven2Asset12)
+	return o
+}
+
+// SetMaven2Asset12 adds the maven2Asset12 to the upload component params
+func (o *UploadComponentParams) SetMaven2Asset12(maven2Asset12 runtime.NamedReadCloser) {
+	o.Maven2Asset12 = maven2Asset12
+}
+
+// WithMaven2Asset12Classifier adds the maven2Asset12Classifier to the upload component params
+func (o *UploadComponentParams) WithMaven2Asset12Classifier(maven2Asset12Classifier *string) *UploadComponentParams {
+	o.SetMaven2Asset12Classifier(maven2Asset12Classifier)
+	return o
+}
+
+// SetMaven2Asset12Classifier adds the maven2Asset12Classifier to the upload component params
+func (o *UploadComponentParams) SetMaven2Asset12Classifier(maven2Asset12Classifier *string) {
+	o.Maven2Asset12Classifier = maven2Asset12Classifier
+}
+
+// WithMaven2Asset12Extension adds the maven2Asset12Extension to the upload component params
+func (o *UploadComponentParams) WithMaven2Asset12Extension(maven2Asset12Extension *string) *UploadComponentParams {
+	o.SetMaven2Asset12Extension(maven2Asset12Extension)
+	return o
+}
+
+// SetMaven2Asset12Extension adds the maven2Asset12Extension to the upload component params
+func (o *UploadComponentParams) SetMaven2Asset12Extension(maven2Asset12Extension *string) {
+	o.Maven2Asset12Extension = maven2Asset12Extension
 }
 
 // WithMaven2Asset2 adds the maven2Asset2 to the upload component params
@@ -1269,6 +1320,46 @@ func (o *UploadComponentParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		fMaven2Asset11Extension := frMaven2Asset11Extension
 		if fMaven2Asset11Extension != "" {
 			if err := r.SetFormParam("maven2.asset11.extension", fMaven2Asset11Extension); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.Maven2Asset12 != nil {
+
+		if o.Maven2Asset12 != nil {
+			// form file param maven2.asset12
+			if err := r.SetFileParam("maven2.asset12", o.Maven2Asset12); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.Maven2Asset12Classifier != nil {
+
+		// form param maven2.asset12.classifier
+		var frMaven2Asset12Classifier string
+		if o.Maven2Asset12Classifier != nil {
+			frMaven2Asset12Classifier = *o.Maven2Asset12Classifier
+		}
+		fMaven2Asset12Classifier := frMaven2Asset12Classifier
+		if fMaven2Asset12Classifier != "" {
+			if err := r.SetFormParam("maven2.asset12.classifier", fMaven2Asset12Classifier); err != nil {
+				return err
+			}
+		}
+	}
+
+	if o.Maven2Asset12Extension != nil {
+
+		// form param maven2.asset12.extension
+		var frMaven2Asset12Extension string
+		if o.Maven2Asset12Extension != nil {
+			frMaven2Asset12Extension = *o.Maven2Asset12Extension
+		}
+		fMaven2Asset12Extension := frMaven2Asset12Extension
+		if fMaven2Asset12Extension != "" {
+			if err := r.SetFormParam("maven2.asset12.extension", fMaven2Asset12Extension); err != nil {
 				return err
 			}
 		}

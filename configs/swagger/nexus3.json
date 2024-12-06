@@ -2004,6 +2004,28 @@
             "description": "maven2 Asset 11 Extension",
             "required": false,
             "type": "string"
+          },
+
+          {
+            "name": "maven2.asset12",
+            "in": "formData",
+            "description": "maven2 Asset 12",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "maven2.asset12.classifier",
+            "in": "formData",
+            "description": "maven2 Asset 12 Classifier",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "maven2.asset12.extension",
+            "in": "formData",
+            "description": "maven2 Asset 12 Extension",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
